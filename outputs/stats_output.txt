@@ -1,0 +1,64 @@
+Query sequence: TGTTACGG
+
+Exploratory alignment results: 
+-----------------------------
+dbseq1: GGTTGACTA
+Length of database sequence: 9
+Time spent searching for seeds: 0.00017118453979492188 seconds
+kmer and numeric key: GTT,47
+Seed position: 3,2
+Time Smith-Waterman: 0.0002923011779785156 seconds
+percent matched: 44.44
+Smith-Waterman max score: 4
+G-T-TAC
+G T  AC
+GTTG-AC
+-----------------------------
+dbseq2: ATGGATTGCACGCAG
+Length of database sequence: 15
+Time spent searching for seeds: 0.00021791458129882812 seconds
+kmer and numeric key: ACG,6
+Seed position: 0,10
+Time Smith-Waterman: 0.0004799365997314453 seconds
+percent matched: 44.44
+Smith-Waterman max score: 3
+G-T-TACG
+  T  ACG
+-TTGCACG
+-----------------------------
+dbseq3: CGCAGGTTCTCCGGCCGCTT
+Length of database sequence: 20
+Time spent searching for seeds: 0.00027298927307128906 seconds
+kmer and numeric key: CGG,26
+Seed position: 1,12
+kmer and numeric key: GTT,47
+Seed position: 3,6
+Time Smith-Waterman: 0.0005559921264648438 seconds
+percent matched: 55.56
+Smith-Waterman max score: 3
+TGTTACGG
+T  T CGG
+TC-TCCGG
+-----------------------------
+dbseq4: CGCTTGGGTGGAG
+Length of database sequence: 13
+Time spent searching for seeds: 0.0001819133758544922 seconds
+kmer and numeric key: GGG,42
+Seed position: 2,6
+Time Smith-Waterman: 0.00036406517028808594 seconds
+percent matched: 22.22
+Smith-Waterman max score: 2
+GG
+GG
+GG
+-----------------------------
+dbseq5: AAGTAAAAAAAAAATAAAGC
+Length of database sequence: 20
+Time spent searching for seeds: 0.0001709461212158203 seconds
+No seeds found
+Time Smith-Waterman: 0.0005321502685546875 seconds
+percent matched: 22.22
+Smith-Waterman max score: 2
+TA
+TA
+TA
