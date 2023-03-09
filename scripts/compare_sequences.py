@@ -31,6 +31,7 @@ def compute_keynum(kmer):
     kmer_char = list(reversed([*kmer]))
     kmer_len = len(kmer)
     key_val = 0
+    char_val = 0
     for i in reversed(range(kmer_len)):
         char = kmer_char[i]
         if char == "A":
@@ -47,19 +48,20 @@ def compute_keynum(kmer):
 def format_database(reads_dict = read_fastaReads(), k = 3):
     '''
     This function computes key for each kmer in the database and store in a dictionary where
-    keys: kmers; 
-    values: key numbers i.e. numeric kmers
+    keys: key numbers i.e. numeric kmers; 
+    values: kmers
     '''
     db_seqs_list = list(reads_dict.values())
     kmer_keynum = dict()
     # get unque k-mer list
     unique_kmer_list = list()
     for db_seq in db_seqs_list:
-        kmer_list = get_kmers(input_sequence = db_seq, k = k)[1] # index to get kmer_list
+        kmer_wpos = get_kmers(input_sequence = db_seq, k = k) # index to get kmer_list
+        kmer_list = list(kmer_wpos.keys())
         unique_kmer_list = set(list(unique_kmer_list) + kmer_list)
     for kmer in unique_kmer_list:
         keynum = compute_keynum(kmer)
-        kmer_keynum[kmer] = keynum
+        kmer_keynum[keynum] = kmer
     return kmer_keynum 
 
 def compute_kmer_within_HSSP1(kmer): 
@@ -93,7 +95,7 @@ def build_tree(elements, pos_list):
         root.add_node(elements[i], pos_list[i])
     return root
 
-def match_search(query_sequence, db_sequence):
+def match_search(query_sequence, db_sequence, k = 3):
     '''
     This function builds a binary search tree from db_sequence
     and perform match searches on kmers from query_sequence to create a seeding dictionary where
@@ -101,9 +103,9 @@ def match_search(query_sequence, db_sequence):
     values: key numbers (numeric kmers)
     '''
     seeding_dict = dict()
-    search_kmers = get_kmers(query_sequence, k=3)[0]
+    search_kmers = list(get_kmers(query_sequence, k).keys())
     search_list = [compute_keynum(kmer) for kmer in search_kmers]
-    kmer_wpos = get_kmers(db_sequence, k=3)[1]
+    kmer_wpos =  get_kmers(db_sequence, k)
     kmer_list = list(kmer_wpos.keys())
     keys = [compute_keynum(kmer) for kmer in kmer_list]
     pos_list = list(kmer_wpos.values())
@@ -118,6 +120,8 @@ def match_search(query_sequence, db_sequence):
                 x_pos = search_index
                 seeding_pos = tuple([x_pos, y_pos])
                 seeding_dict[seeding_pos] = search_key
+    if bool(seeding_dict) == False:
+        seeding_dict = "No seeeds found"
     return seeding_dict
 
 def smith_waterman(query_sequence, db_sequence, 
@@ -154,11 +158,10 @@ def smith_waterman(query_sequence, db_sequence,
     align1, align2 = '', ''
 
     i,j = max_i,max_j # this i, j would correspond to each seed!!!
-    print(i,j)
-        # Traceback
-        # Step 3. Traceback. Starting at the highest score in the scoring matrix 
-        # H and ending at a matrix cell that has a score of 0, traceback based on the source of 
-        # each score recursively to generate the best local alignment.
+    # Traceback
+    # Step 3. Traceback. Starting at the highest score in the scoring matrix 
+    # H and ending at a matrix cell that has a score of 0, traceback based on the source of 
+    # each score recursively to generate the best local alignment.
     while traceback_mat[i][j] != 0:
         if traceback_mat[i][j] == 3:
             base1 = query_sequence[i-1]
@@ -173,7 +176,6 @@ def smith_waterman(query_sequence, db_sequence,
             base1 = query_sequence[i-1]
             base2 = '-'
             i -= 1
-        print('%s ---> base1 = %s\t base2 = %s\n' % ('Add',base1,base2))
         align1 += base1
         align2 += base2
 
@@ -192,7 +194,7 @@ def smith_waterman(query_sequence, db_sequence,
             symbol += ' '
         elif base1 == '-' or base2 == '-':          
             symbol += ' '
-    percent_identity = identity_score / len(align1) * 100
+    percent_identity = identity_score / len(query_sequence) * 100
     return percent_identity, max_score, align1, align2, symbol
     
 
