@@ -1,5 +1,5 @@
-import re
 import sys
+import re
 
 def read_fastaQuery(query_path = './data/toy_query.fasta'):
     # read in query fasta file 
