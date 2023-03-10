@@ -1,4 +1,5 @@
-# Reconstruct sequence from reads and query for substring
+# Constructing the longest contig containing query sequence from given sequencing reads
+
 ## Aim
 To construct the longest possible cogtig from given reads containing the query sequence
 ## Description
