@@ -2,22 +2,22 @@
 Perform unit tests for essential methods
 '''
 import unittest
-from src import binary_search_tree, compare_sequences, read_write_fasta 
+from src import binary_search_tree, compare_sequences
 
 class unitities(unittest.TestCase):
-    
+
     def test_getkmers1(self):
-        input_seq = "IAMACUTE"
+        input_seq = "IAMCUTE"
         k = 3
         kmer_list = list(get_kmers(input_seq, k).keys())
-        expected = ["IAM","AMA","MAC","ACU","CUT","UTE"]
+        expected = ["IAM","AMC","MCU","CUT","UTE"]
         self.assertEqual(kmer_list.sort(),expected.sort())
 
     def test_getkmers2(self):
-        input_seq = "IAMACUTE"
+        input_seq = "IAMCCUTE"
         k = 4
         kmer_list = list(get_kmers(input_seq, k).keys())
-        expected = ["IAMA","AMAC","MACU","ACUT","CUTE"]
+        expected = ["IAM","AMCC","MCCU","CCUT","CUTE"]
         self.assertEqual(kmer_list.sort(),expected.sort())
         
 class alignment(unittest.TestCase):
@@ -30,7 +30,7 @@ class alignment(unittest.TestCase):
 
     def test_smithwaterman_less100iden(self):
         input_seq1 = "IAMCUTE"
-        input_seq2 = "IAMNOTCUTE"
+        input_seq2 = "NOTCUTE"
         expected_iden = round(smith_waterman(input_seq1, input_seq2)[0],2)
         self.assertEqual(expected_iden, 57.14)
 
@@ -40,4 +40,3 @@ class assembly(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
