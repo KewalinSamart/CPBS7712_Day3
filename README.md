@@ -4,7 +4,7 @@ To construct the longest possible cogtig from given reads containing the query s
 ## Description
 The program is divided into 2 components:
 1. Sequence alignment. Apply Basic Local Alignment Tool (BLAST) preprocessing and extend matched seeds using Smith-Waterman algorithm to perform local alignment, then subset reads with good alignment quality (seeds found). 
-2. Sequence assembly consist. Construct a De Bruijn Graph from filtered reads from the alignment step. Then traceback the graph to form the query sequence by following Eulerian paths. 
+2. Sequence assembly. Construct a De Bruijn Graph from filtered reads from the alignment step. Then traceback the graph to form the query sequence by following Eulerian paths. Finally, build out from the assembled sequence to get the final longest sequence.
 
 ## Installation
 - [python >= 3.8.3](https://www.python.org/downloads/)
